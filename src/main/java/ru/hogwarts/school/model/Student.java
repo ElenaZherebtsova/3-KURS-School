@@ -3,7 +3,7 @@ package ru.hogwarts.school.model;
 import java.util.Objects;
 
 public class Student {
-   private Long id;
+   private long id;
    private String name;
    private int age;
 
@@ -13,7 +13,7 @@ public class Student {
         this.age = age;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -48,5 +48,14 @@ public class Student {
     @Override
     public int hashCode() {
         return Objects.hash(name, age);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

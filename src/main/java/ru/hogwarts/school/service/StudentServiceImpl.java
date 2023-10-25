@@ -13,7 +13,7 @@ public class StudentServiceImpl implements StudentService {
 
     private final Map<Long, Student> repository = new HashMap<>();
     private Long countID = 0L;
-
+    @Override
     public Student create(Student student) {
         if (repository.containsValue(student)) {
             throw new StudentAlreadyExistException("Студент уже был добавлен.");
@@ -23,29 +23,29 @@ public class StudentServiceImpl implements StudentService {
         student.setId(id);
         return repository.put(id, student);
     }
-
+@Override
     public Student read(long id) {
         Student student = repository.get(id);
 
         if (student == null) {
-            throw new StudentNotFoundException("Студент не найден в хранилище.")
+            throw new StudentNotFoundException("Студент не найден в хранилище.");
 
         }
 
         return student;
     }
-
+@Override
     public Student update(Student student) {
         if (!repository.containsKey(student.getId())) {
-            throw new StudentNotFoundException("Студент с таким id не найден.")
+            throw new StudentNotFoundException("Студент с таким id не найден.");
         }
         return repository.put(student.getId(), student);
     }
-
+@Override
     public Student delete(long id) {
         Student removedStudent = repository.remove(id);
         if (removedStudent == null) {
-            throw new StudentNotFoundException("Студент не найден в хранилище.")
+            throw new StudentNotFoundException("Студент не найден в хранилище.");
 
         }
 
