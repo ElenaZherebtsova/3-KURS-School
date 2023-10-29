@@ -12,7 +12,8 @@ import java.util.Map;
 public class StudentServiceImpl implements StudentService {
 
     private final Map<Long, Student> repository = new HashMap<>();
-    private Long countID = 0L;
+    private long countID = 0L;
+
     @Override
     public Student create(Student student) {
         if (repository.containsValue(student)) {
@@ -23,7 +24,8 @@ public class StudentServiceImpl implements StudentService {
         student.setId(id);
         return repository.put(id, student);
     }
-@Override
+
+    @Override
     public Student read(long id) {
         Student student = repository.get(id);
 
@@ -34,14 +36,18 @@ public class StudentServiceImpl implements StudentService {
 
         return student;
     }
-@Override
+
+    @Override
     public Student update(Student student) {
         if (!repository.containsKey(student.getId())) {
             throw new StudentNotFoundException("Студент с таким id не найден.");
         }
-        return repository.put(student.getId(), student);
+         repository.put(student.getId(), student);
+
+        return student;
     }
-@Override
+
+    @Override
     public Student delete(long id) {
         Student removedStudent = repository.remove(id);
         if (removedStudent == null) {
@@ -50,7 +56,6 @@ public class StudentServiceImpl implements StudentService {
         }
 
         return removedStudent;
-
     }
 
 
