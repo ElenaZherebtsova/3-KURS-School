@@ -5,8 +5,10 @@ import ru.hogwarts.school.exceptions.StudentAlreadyExistException;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Student;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -22,7 +24,9 @@ public class StudentServiceImpl implements StudentService {
 
         long id = ++countID;
         student.setId(id);
-        return repository.put(id, student);
+
+                repository.put(id, student);
+        return student;
     }
 
     @Override
@@ -58,5 +62,12 @@ public class StudentServiceImpl implements StudentService {
         return removedStudent;
     }
 
+    @Override
+    public Collection<Student> readByAge(int age) {
+        return repository.values().stream()
+                .filter(student -> student.getAge()==age)
+                .collect(Collectors.toUnmodifiableList());
+
+    }
 
 }

@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/faculty")
 public class FacultyController {
@@ -18,7 +20,7 @@ public class FacultyController {
         return facultyService.create(faculty);
     }
 
-    @PutMapping("/{id}")
+    @GetMapping("/{id}")
     public Faculty read(@PathVariable long id) {
         return facultyService.read(id);
     }
@@ -31,5 +33,10 @@ public class FacultyController {
     @DeleteMapping("/{id}")
     public Faculty delete(@PathVariable long id) {
         return facultyService.delete(id);
+    }
+
+    @GetMapping
+    public Collection<Faculty> readByColour(@RequestParam String colour) {
+        return facultyService.readByColour(colour);
     }
 }

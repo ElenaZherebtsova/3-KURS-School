@@ -5,8 +5,10 @@ import ru.hogwarts.school.exceptions.FacultyAlreadyExistException;
 import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -22,7 +24,8 @@ public class FacultyServiceImpl implements FacultyService {
 
         long id = ++countID;
         faculty.setId(id);
-        return repository.put(id, faculty);
+         repository.put(id, faculty);
+        return faculty;
     }
 
     @Override
@@ -52,5 +55,12 @@ public class FacultyServiceImpl implements FacultyService {
             throw new FacultyNotFoundException("Факультет с id = " + id + " не найден.");
                     }
         return removedFaculty;
+    }
+
+    @Override
+    public Collection<Faculty> readByColour(String colour) {
+         return repository.values().stream()
+                .filter(faculty -> faculty.getColour() == colour)
+                .collect(Collectors.toUnmodifiableList());
     }
 }
