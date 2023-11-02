@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.exceptions.StudentAlreadyExistException;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,61 +15,74 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl implements StudentService {
 
 
-    private final Map<Long, Student> repository = new HashMap<>();
-    private long countID = 0L;
+    private final StudentRepository repository;
 
+    public StudentServiceImpl(StudentRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Student create(Student student) {
-        if (repository.containsValue(student)) {
-            throw new StudentAlreadyExistException("Студент уже был добавлен.");
-        }
+        return repository.save(student);
 
-        long id = ++countID;
-        student.setId(id);
+//        if (repository.containsValue(student)) {
+//            throw new StudentAlreadyExistException("Студент уже был добавлен.");
+//        }
 
-                repository.put(id, student);
-        return student;
+//        long id = ++countID;
+//        student.setId(id);
+
+//                repository.put(id, student);
+//        return student;
     }
 
     @Override
     public Student read(long id) {
-        Student student = repository.get(id);
+        return repository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Студент не найден в хранилище."));
 
-        if (student == null) {
-            throw new StudentNotFoundException("Студент не найден в хранилище.");
-
-        }
-
-        return student;
+//        Student student = repository.get(id);
+//        if (student == null) {
+//            throw new StudentNotFoundException("Студент не найден в хранилище.");
+//        }
+//        return student;
     }
 
     @Override
     public Student update(Student student) {
-        if (!repository.containsKey(student.getId())) {
-            throw new StudentNotFoundException("Студент с таким id не найден.");
-        }
-         repository.put(student.getId(), student);
+        read(student.getId());
 
-        return student;
+        return repository.save(student);
+
+
+//        if (!repository.containsKey(student.getId())) {
+//            throw new StudentNotFoundException("Студент с таким id не найден.");
+//        }
+//        repository.put(student.getId(), student);
+//
+//        return student;
     }
 
     @Override
     public Student delete(long id) {
-        Student removedStudent = repository.remove(id);
-        if (removedStudent == null) {
-            throw new StudentNotFoundException("Студент не найден в хранилище.");
 
-        }
+//        Student removedStudent = repository.remove(id);
+//        if (removedStudent == null) {
+//            throw new StudentNotFoundException("Студент не найден в хранилище.");
+//        }
+        Student readedStudent = read(id);
+        repository.delete(readedStudent);
+        return readedStudent;
 
-        return removedStudent;
     }
 
     @Override
     public Collection<Student> readByAge(int age) {
-        return repository.values().stream()
-                .filter(student -> student.getAge()==age)
-                .collect(Collectors.toUnmodifiableList());
+        return repository.findAllByAge(age);
+
+//        return repository.values().stream()
+//                .filter(student -> student.getAge() == age)
+//                .collect(Collectors.toUnmodifiableList());
 
     }
 
