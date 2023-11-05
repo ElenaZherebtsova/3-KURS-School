@@ -66,7 +66,7 @@ class StudentServiceTest {
     @Test
     void readByAge_shouldReturnCollectionOfAllStudents() {
 
-        when(repository.findAllByAge(testStudent.getAge())).thenReturn();
+        when(repository.findAllByAge(testStudent.getAge())).thenReturn(Optional.of(testStudent));
         Collection<Student> result = service.readByAge(14);
         assertEquals(List.of(testStudent), result);
 

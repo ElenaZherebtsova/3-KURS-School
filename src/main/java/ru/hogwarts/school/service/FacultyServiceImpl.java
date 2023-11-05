@@ -1,15 +1,11 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
-import ru.hogwarts.school.exceptions.FacultyAlreadyExistException;
 import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -45,6 +41,14 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Collection<Faculty> readByColour(String colour) {
+
         return repository.findAllByColour(colour);
     }
+
+    @Override
+    public Collection<Faculty> readByNameorColour(String name,
+                                                  String colour) {
+        return repository.findAllByNameIgnoreCaseOrColourIgnoreCase(name, colour);
+    }
+
 }

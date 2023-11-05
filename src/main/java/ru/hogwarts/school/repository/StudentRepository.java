@@ -10,4 +10,8 @@ public interface StudentRepository
 
     Collection<Student> findAllByAge(int age);
 
+    Collection<Student> findByAgeBetween(int minAge, int maxAge);
+
+    Collection<Student> findAllByFaculty_id(long idFaculty);
+
 }
