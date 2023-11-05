@@ -19,14 +19,9 @@ public class FacultyServiceImpl implements FacultyService {
         this.repository = repository;
     }
 
-    //    private final Map<Long, Faculty> repository = new HashMap<>();
-//    private long countID = 0L;
-
     @Override
     public Faculty create(Faculty faculty) {
         return repository.save(faculty);
-
-
     }
 
     @Override
