@@ -49,6 +49,7 @@ class StudentServiceTest {
     }
     @Test
     void update_shouldReturnUpdatedStudent() {
+        when(repository.save(testStudent)).thenReturn(testStudent);
         when(repository.findById(testStudent.getId()))
                 .thenReturn(Optional.of(testStudent));
         testStudent.setAge(11);
@@ -66,7 +67,8 @@ class StudentServiceTest {
     @Test
     void readByAge_shouldReturnCollectionOfAllStudents() {
 
-        when(repository.findAllByAge(testStudent.getAge())).thenReturn(Optional.of(testStudent));
+        when(repository.findAllByAge(testStudent.getAge()))
+                .thenReturn(List.of(testStudent))    ;
         Collection<Student> result = service.readByAge(14);
         assertEquals(List.of(testStudent), result);
 
