@@ -15,7 +15,6 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
 public class AvatarServiceImpl implements AvatarService {
-
     private final String avatarsDir;
     private final StudentService studentService;
     private final AvatarRepository avatarRepository;

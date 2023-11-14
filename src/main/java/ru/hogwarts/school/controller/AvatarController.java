@@ -31,7 +31,9 @@ public class AvatarController {
                     .body("Изображение слишком большое для загрузки.");
         }
         avatarService.uploadAvatar(studentId, avatar);
+
         return ResponseEntity.ok().body("Изображение успешно загружено.");
+
 
     }
 }

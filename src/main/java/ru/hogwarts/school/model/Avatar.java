@@ -27,11 +27,9 @@ public class Avatar {
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getFilepath() {
         return filepath;
     }
-
     public void setFilepath(String filepath) {
         this.filepath = filepath;
     }

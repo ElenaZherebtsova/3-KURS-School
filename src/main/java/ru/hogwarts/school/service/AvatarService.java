@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.IOException;
 
 public interface AvatarService {
-
-
 //    Avatar readFromDB(long id);
 //    File readFromFile (long id) throws IOException;
 
