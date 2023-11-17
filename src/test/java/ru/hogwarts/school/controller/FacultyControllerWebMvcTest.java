@@ -58,6 +58,7 @@ public class FacultyControllerWebMvcTest {
 
     @Test
     void update_shouldReturnUpdatedFacultyAndStatus200() throws Exception {
+        facultyRepository.save(faculty);
         when(facultyRepository.save(faculty)).thenReturn(faculty);
         faculty.setColour("green");
         mockMvc.perform(put("/faculty")

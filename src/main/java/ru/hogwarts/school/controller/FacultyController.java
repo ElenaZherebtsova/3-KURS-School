@@ -17,11 +17,13 @@ public class FacultyController {
 
     @PostMapping
     public Faculty create(@RequestBody Faculty faculty) {
+
         return facultyService.create(faculty);
     }
 
     @GetMapping("/{id}")
     public Faculty read(@PathVariable long id) {
+
         return facultyService.read(id);
     }
 
