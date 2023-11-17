@@ -26,7 +26,8 @@ public class FacultyController {
     }
 
     @PutMapping
-    public Faculty update(@RequestBody Faculty faculty) {
+    public Faculty update(
+            @RequestBody Faculty faculty) {
         return facultyService.update(faculty);
     }
 
