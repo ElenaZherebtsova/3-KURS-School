@@ -72,7 +72,8 @@ class StudentControllerRestTemplateTest {
     @Test
     void delete_shouldReturnStudentAndStatus200() {
         Student savedStudent = studentRepository.save(student);
-        ResponseEntity<Student> result = restTemplate.exchange(baseUrl + "/" + student.getId(),
+        ResponseEntity<Student> result = restTemplate
+                .exchange(baseUrl + "/" + savedStudent.getId(),
                 HttpMethod.DELETE,
                 new HttpEntity<>(savedStudent),
                 Student.class);
@@ -85,7 +86,8 @@ class StudentControllerRestTemplateTest {
         Student savedSt1 = studentRepository.save(student);
         Student ron = new Student(2L, "Ron", 12);
         Student savedSt2 = studentRepository.save(ron);
-        ResponseEntity<Object> result = restTemplate.exchange(baseUrl + "?age=" + student.getAge(),
+        ResponseEntity<List<Student>> result = restTemplate
+                .exchange(baseUrl + "?age=" + student.getAge(),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {
