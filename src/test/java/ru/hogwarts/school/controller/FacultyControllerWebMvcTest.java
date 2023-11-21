@@ -38,7 +38,8 @@ public class FacultyControllerWebMvcTest {
 
 
     @Test
-    void create_shouldReturnFacultyAndStatus200() throws Exception {
+    void create_shouldReturnFacultyAndStatus200()
+            throws Exception {
         when(facultyRepository.save(faculty)).thenReturn(faculty);
         mockMvc.perform(post("/faculty")
                         .content(objectMapper.writeValueAsString(faculty))
@@ -58,8 +59,9 @@ public class FacultyControllerWebMvcTest {
 
     @Test
     void update_shouldReturnUpdatedFacultyAndStatus200() throws Exception {
-        facultyRepository.save(faculty);
-        when(facultyRepository.save(faculty)).thenReturn(faculty);
+        when( facultyRepository.save(faculty)).thenReturn(faculty);
+        when(facultyRepository.findById(faculty.getId()))
+                .thenReturn(Optional.of(faculty));
         faculty.setColour("green");
         mockMvc.perform(put("/faculty")
                         .content(objectMapper.writeValueAsString(faculty))

@@ -29,7 +29,7 @@ class StudentControllerRestTemplateTest {
     @Autowired
     StudentRepository studentRepository;
     String baseUrl;
-    Student student = new Student(1L, "Garry", 12);
+    Student student = new Student(112L, "Garry", 12);
 
     @BeforeEach
     void beforeEach() {
@@ -53,8 +53,6 @@ class StudentControllerRestTemplateTest {
                 String.class);
         assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
         assertEquals("Студент не найден в хранилище.", result.getBody());
-
-
     }
 
     @Test
