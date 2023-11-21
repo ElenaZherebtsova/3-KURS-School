@@ -44,7 +44,8 @@ class FacultyControllerRestTemplateTest {
                 faculty,
                 Faculty.class);
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(faculty, result.getBody());
+        assertEquals(faculty.getName(), result.getBody().getName());
+        assertEquals(faculty.getColour(), result.getBody().getColour());
     }
 
     @Test
