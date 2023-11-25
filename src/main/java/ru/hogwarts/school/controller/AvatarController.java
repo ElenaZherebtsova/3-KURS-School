@@ -1,6 +1,7 @@
 package ru.hogwarts.school.controller;
 
 import org.apache.coyote.Response;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.service.AvatarService;
+import ru.hogwarts.school.service.AvatarServiceImpl;
 
 import java.awt.*;
 import java.io.File;
@@ -51,7 +53,7 @@ public class AvatarController {
     }
 
     @GetMapping(value = "/{id}/avatar-from-file")
-    public ResponseEntity<byte[]> downloadAvatarFromFile(@PathVariable long id) throws IOException{
+    public ResponseEntity<byte[]> downloadAvatarFromFile(@PathVariable long id) throws IOException {
         File avatar = avatarService.readFromFile(id);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(Files.probeContentType(avatar.toPath())));
@@ -60,5 +62,11 @@ public class AvatarController {
                 .headers(headers)
                 .body(Files.readAllBytes(avatar.toPath()));
 
+    }
+
+    @GetMapping(value = "/all")
+    public Page<Avatar> getAllAvatars(@RequestParam("page") int page,
+                                      @RequestParam("size") int maxFileSize) {
+        return avatarService.getAllAvatars(page, maxFileSize);
     }
 }
