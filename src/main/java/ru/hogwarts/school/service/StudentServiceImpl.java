@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Faculty;
@@ -7,9 +8,11 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.logging.Logger;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+    private final Logger logger = (Logger) LoggerFactory.getLogger(StudentServiceImpl.class);
     private final StudentRepository repository;
 
     public StudentServiceImpl(StudentRepository repository) {
@@ -18,6 +21,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student create(Student student) {
+        logger.info("Was invoked method for create student.");
 
         return repository.save(student);
     }
