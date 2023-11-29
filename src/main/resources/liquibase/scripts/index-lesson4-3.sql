@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
--- changeset jrembo:1
+-- changeset Elena_Zh:1
 
 CREATE INDEX IF NOT EXISTS student_name_index ON student (name);
 
