@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
 public class AvatarServiceImpl implements AvatarService {
+    private final Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
+
     private final String avatarsDir;
     private final StudentService studentService;
     private final AvatarRepository avatarRepository;
@@ -34,6 +38,8 @@ public class AvatarServiceImpl implements AvatarService {
     @Override
     public void uploadAvatar(Long studentID,
                              MultipartFile avatarFile) throws IOException {
+        logger.info("Was invoked method to upload avatar for student.");
+
         Student student = studentService.read(studentID);
         Path filePath = saveToFile(student, avatarFile);
         saveToDB(filePath, avatarFile, student);
@@ -41,6 +47,8 @@ public class AvatarServiceImpl implements AvatarService {
 
     private Path saveToFile(Student student,
                             MultipartFile avatarFile) throws IOException {
+        logger.info("Was invoked method to save avatar in file.");
+
         Path filePath = Path.of(avatarsDir,
                 student.getId() + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
@@ -58,6 +66,8 @@ public class AvatarServiceImpl implements AvatarService {
     private void saveToDB(Path filePath,
                           MultipartFile avatarFile,
                           Student student) throws IOException {
+        logger.info("Was invoked method to save avatar in DataBase.");
+
         Avatar avatar = avatarRepository.findByStudent_id(student.getId()).orElse(new Avatar());
         avatar.setStudent(student);
         avatar.setFilepath(filePath.toString());
@@ -69,12 +79,16 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public Avatar readFromDB(long id) {
+        logger.info("Was invoked method to read avatar from DataBase.");
+
         return avatarRepository.findById(id)
                 .orElseThrow(() -> new AvatarNotFoundException("Изображение не найдено."));
     }
 
     @Override
     public File readFromFile (long id) throws IOException {
+        logger.info("Was invoked method to read avatar from file.");
+
         Avatar avatar = readFromDB(id);
         Path path = Path.of(avatar.getFilepath());
         return new File(avatar.getFilepath());
@@ -88,6 +102,8 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public Page<Avatar> getAllAvatars(Integer pageNo, Integer pageSize) {
+        logger.info("Was invoked method to read all avatar from DataBase.");
+
         Pageable paging = PageRequest.of(pageNo, pageSize);
         return avatarRepository.findAll(paging);
     }
