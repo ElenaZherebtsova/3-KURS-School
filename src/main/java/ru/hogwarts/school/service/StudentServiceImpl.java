@@ -140,7 +140,6 @@ public class StudentServiceImpl implements StudentService {
         printNameSync(2L);
         thread1.start();
         thread2.start();
-
     }
 
     private synchronized void printNameSync(Long id) {

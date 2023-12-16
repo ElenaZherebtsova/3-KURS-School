@@ -91,5 +91,6 @@ public class StudentController {
     //4.6.2. Вывод имен студентов в синхронном режиме
     public void getNamesSync () throws InterruptedException {
         studentService.getStudentNamesSync();
+
     }
 }
