@@ -77,6 +77,19 @@ public class StudentController {
     @GetMapping("/getallstudentsaverageage")
     // 4.5.2. Средний возраст студентов
     public Double getAllStudentsAvgAge () {
+
         return studentService.getStudentAvgAge();
+    }
+
+    @GetMapping("/print-parallel")
+    //4.6.1. Вывод имен студентов в параллельных потоках
+    public void getNames () throws InterruptedException {
+        studentService.getStudentNamesInThreads();
+    }
+
+    @GetMapping("/print-synchronized")
+    //4.6.2. Вывод имен студентов в синхронном режиме
+    public void getNamesSync () throws InterruptedException {
+        studentService.getStudentNamesSync();
     }
 }

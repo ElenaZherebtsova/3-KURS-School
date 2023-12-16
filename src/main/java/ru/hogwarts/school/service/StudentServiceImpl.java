@@ -97,4 +97,54 @@ public class StudentServiceImpl implements StudentService {
                 .orElse(0);
     }
 
+    @Override
+    //4.6.1. Вывод имен студентов в разных потоках
+    public void getStudentNamesInThreads() {
+        Thread  thread1 = new Thread(()->{
+            printName(3L);
+            printName(4L);
+        });
+        thread1.setName("Thread #1");
+
+        Thread  thread2 = new Thread(()->{
+            printName(5L);
+            printName(6L);
+        });
+        thread2.setName("Thread #2");
+
+        thread1.start();
+        thread2.start();
+
+        printName(1L);
+        printName(2L);
+    }
+
+    private void printName(long id) {
+        String studentName = repository.getById(id).getName();
+        System.out.println(studentName);
+    }
+
+    @Override
+    //4.6.2. Вывод имен студентов в синхронном режиме.
+    public void getStudentNamesSync () {
+        Thread thread1= new Thread(()->{
+            printNameSync(3L);
+            printNameSync(4L);
+        });
+        Thread thread2= new Thread(()->{
+            printNameSync(5L);
+            printNameSync(6L);
+        });
+
+        printNameSync(1L);
+        printNameSync(2L);
+        thread1.start();
+        thread2.start();
+
+    }
+
+    private synchronized void printNameSync(Long id) {
+        String studentName = repository.getById(id).getName();
+        System.out.println(studentName);
+    }
 }
