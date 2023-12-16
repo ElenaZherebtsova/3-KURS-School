@@ -21,4 +21,9 @@ public interface StudentService {
     Faculty readFacultyOfStudent(long idStudent);
 
     Collection<Student> readByFacultyId(long idFaculty);
+
+    Collection<String> getFilteredByNameA();
+
+    // 4.5.2. Средний возраст студентов
+    Double getStudentAvgAge();
 }

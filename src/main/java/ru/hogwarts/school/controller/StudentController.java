@@ -1,5 +1,7 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -8,7 +10,7 @@ import ru.hogwarts.school.service.StudentService;
 import java.util.Collection;
 
 @RestController
-@RequestMapping ("/student")
+@RequestMapping("/student")
 public class StudentController {
     private final StudentService studentService;
 
@@ -46,8 +48,8 @@ public class StudentController {
     }
 
     @GetMapping("/age")
-    public Collection<Student> readByAgeBetween (@RequestParam int minAge,
-                                                 @RequestParam int maxAge) {
+    public Collection<Student> readByAgeBetween(@RequestParam int minAge,
+                                                @RequestParam int maxAge) {
         return studentService.readByAgeBetween(minAge, maxAge);
     }
 
@@ -59,5 +61,22 @@ public class StudentController {
     @GetMapping("/readFaculty")
     public Collection<Student> readByFaculty(@RequestParam long idFaculty) {
         return studentService.readByFacultyId(idFaculty);
+    }
+
+
+    // 4.5.1. Сортировка студентов по имени на букву А
+    @GetMapping("/filteredbynamea")
+    public ResponseEntity<Collection<String>> getAllStudentsWithNameA() {
+        Collection<String> studentSpisok = studentService.getFilteredByNameA();
+        if (studentSpisok.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(studentSpisok);
+    }
+
+    @GetMapping("/getallstudentsaverageage")
+    // 4.5.2. Средний возраст студентов
+    public Double getAllStudentsAvgAge () {
+        return studentService.getStudentAvgAge();
     }
 }
