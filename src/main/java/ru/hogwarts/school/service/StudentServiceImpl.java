@@ -9,6 +9,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -76,4 +77,73 @@ public class StudentServiceImpl implements StudentService {
         return repository.findAllByFaculty_id(idFaculty);
     }
 
+    @Override
+    // 4.5.1. Сортировка студентов по имени на букву А
+    public Collection<String> getFilteredByNameA() {
+        return (Collection<String>) repository.findAll().stream()
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .filter(s ->s.startsWith("A"))
+                .sorted()
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    // 4.5.2. Средний возраст студентов
+    public Double getStudentAvgAge () {
+        return repository.findAll().stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElse(0);
+    }
+
+    @Override
+    //4.6.1. Вывод имен студентов в разных потоках
+    public void getStudentNamesInThreads() {
+        Thread  thread1 = new Thread(()->{
+            printName(3L);
+            printName(4L);
+        });
+        thread1.setName("Thread #1");
+
+        Thread  thread2 = new Thread(()->{
+            printName(5L);
+            printName(6L);
+        });
+        thread2.setName("Thread #2");
+
+        thread1.start();
+        thread2.start();
+
+        printName(1L);
+        printName(2L);
+    }
+
+    private void printName(long id) {
+        String studentName = repository.getById(id).getName();
+        System.out.println(studentName);
+    }
+
+    @Override
+    //4.6.2. Вывод имен студентов в синхронном режиме.
+    public void getStudentNamesSync () {
+        Thread thread1= new Thread(()->{
+            printNameSync(3L);
+            printNameSync(4L);
+        });
+        Thread thread2= new Thread(()->{
+            printNameSync(5L);
+            printNameSync(6L);
+        });
+
+        printNameSync(1L);
+        printNameSync(2L);
+        thread1.start();
+        thread2.start();
+    }
+
+    private synchronized void printNameSync(Long id) {
+        String studentName = repository.getById(id).getName();
+        System.out.println(studentName);
+    }
 }

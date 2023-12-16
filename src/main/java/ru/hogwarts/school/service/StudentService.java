@@ -21,4 +21,15 @@ public interface StudentService {
     Faculty readFacultyOfStudent(long idStudent);
 
     Collection<Student> readByFacultyId(long idFaculty);
+
+    Collection<String> getFilteredByNameA();
+
+    // 4.5.2. Средний возраст студентов
+    Double getStudentAvgAge();
+
+    //4.6.1. Вывод имен студентов в разныхпотоках
+    void getStudentNamesInThreads();
+
+    //4.6.2. Вывод имен студентов в синхронном режиме.
+    void getStudentNamesSync();
 }
